@@ -5,14 +5,24 @@ export default function Home() {
         <span className="eyebrow">BankID · 72-timmarsfönster</span>
         <h1>Samtycke med <span className="accent">eftertanke</span>.</h1>
         <p>
-          Concent är ett digitalt samtyckesregister med BankID. Mellan signering
-          och aktivering ligger ett 3-dagarsfönster — för att samtycket ska vara
-          en handling, inte ett impulsbeslut.
+          Concent är en app för att registrera ditt intima liv. Ett sätt att
+          hålla koll på vem du väljer att dela fysisk intimitet med — och att
+          göra det med ansvar, närvaro och ett tydligt samtycke på papper.
         </p>
         <a href="/consents/new" className="btn">Starta ett samtycke →</a>
       </section>
 
-      <section className="card" style={{ marginTop: 32 }}>
+      <section className="card">
+        <h2>Varför Concent</h2>
+        <p className="muted" style={{ marginTop: 0, lineHeight: 1.6 }}>
+          Intimitet förtjänar samma eftertanke som andra viktiga beslut i livet.
+          Concent ger dig ett tydligt register över vilka du har ingått samtycke
+          med, när det skedde och på vilka villkor. Det gör det lättare att vara
+          ansvarsfull mot dig själv och dem du delar din kropp med.
+        </p>
+      </section>
+
+      <section className="card">
         <h2>Hur det funkar</h2>
         <ul className="steps">
           <li>Du startar ett samtycke och signerar med BankID.</li>

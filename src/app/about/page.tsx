@@ -3,8 +3,14 @@ export default function About() {
     <div className="card">
       <h1>Om Concent</h1>
       <p>
-        Concent är ett experiment i hur digitalt samtycke kan se ut när det
-        designas för eftertanke snarare än hastighet.
+        Concent är en app för att registrera sitt intima liv. Den finns för att
+        göra det lättare att ha koll på vem du delar fysisk intimitet med — och
+        för att göra det med ansvar, närvaro och ett dokumenterat samtycke.
+      </p>
+      <p>
+        Vi ser Concent som ett verktyg i samma anda som en kondom: något du tar
+        fram innan, inte istället för samtal. Det ersätter inte kommunikation.
+        Det är för dem som redan vill ta sina val på allvar.
       </p>
       <h3>3-dagarsfönstret</h3>
       <p>
