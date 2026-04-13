@@ -39,9 +39,7 @@ export default async function ConsentDetail({ params }: { params: { id: string }
           <>
             <p className="muted">Väntar på motpartens signatur.</p>
             <p>Dela denna länk med motparten:</p>
-            <code style={{ display: "block", padding: 12, background: "#0b0d12", borderRadius: 8 }}>
-              {shareUrl}
-            </code>
+            <code className="share">{shareUrl}</code>
           </>
         )}
 

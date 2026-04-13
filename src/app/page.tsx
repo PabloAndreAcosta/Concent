@@ -2,13 +2,14 @@ export default function Home() {
   return (
     <div>
       <section className="hero">
-        <h1>Samtycke med eftertanke.</h1>
+        <span className="eyebrow">BankID · 72-timmarsfönster</span>
+        <h1>Samtycke med <span className="accent">eftertanke</span>.</h1>
         <p>
           Concent är ett digitalt samtyckesregister med BankID. Mellan signering
           och aktivering ligger ett 3-dagarsfönster — för att samtycket ska vara
           en handling, inte ett impulsbeslut.
         </p>
-        <a href="/consents/new" className="btn">Starta ett samtycke</a>
+        <a href="/consents/new" className="btn">Starta ett samtycke →</a>
       </section>
 
       <section className="card" style={{ marginTop: 32 }}>

@@ -7,7 +7,12 @@ import type { BankIdClient } from "./types";
  * test-flöden går att replaya.
  */
 type Order = { startedAt: number; personalNumber: string | null };
-const orders = new Map<string, Order>();
+/**
+ * Globaliseras så Next.js dev-mode hot reload inte tappar pågående orders
+ * mellan startSign och collect (olika moduler laddas om vid filändring).
+ */
+const g = globalThis as unknown as { __concentBankidOrders?: Map<string, Order> };
+const orders: Map<string, Order> = g.__concentBankidOrders ?? (g.__concentBankidOrders = new Map());
 
 export const mockBankIdClient: BankIdClient = {
   async startSign(personalNumber, _userVisibleData) {

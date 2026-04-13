@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Concent",
-  description: "Digitalt samtycke med eftertanke. 3 dagar mellan signering och aktivering."
+  title: "Concent — Samtycke med eftertanke",
+  description: "Digitalt samtycke med BankID. 3 dagar mellan signering och aktivering. En produkt från Usha.",
+  themeColor: "#d4af37"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -11,7 +12,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="sv">
       <body>
         <header className="topbar">
-          <a href="/" className="logo">Concent</a>
+          <a href="/" className="brand">
+            <span className="brand-mark">C</span>
+            <span>Concent</span>
+          </a>
           <nav>
             <a href="/consents">Mina samtycken</a>
             <a href="/about">Om</a>
@@ -19,10 +23,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="container">{children}</main>
         <footer className="footer">
-          <small>
-            Test-miljö. Endast för demo. Inget rättsligt bindande.{" "}
+          <div>Test-miljö. Endast för demo. Inget rättsligt bindande.</div>
+          <div style={{ marginTop: 6 }} className="powered">
+            <span className="dot" /> En produkt från{" "}
+            <a href="https://usha.se" style={{ marginLeft: 4 }}>Usha</a>
+            <span style={{ margin: "0 8px" }}>·</span>
             <a href="https://github.com/PabloAndreAcosta/Concent">Källkod</a>
-          </small>
+          </div>
         </footer>
       </body>
     </html>
