@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Concent — Samtycke med eftertanke",
-  description: "Digitalt samtycke med BankID. 3 dagar mellan signering och aktivering. En produkt från Usha.",
+  description: "Digitalt samtycke med BankID. 3 dagar mellan signering och aktivering. En produkt från Usha."
+};
+
+export const viewport: Viewport = {
   themeColor: "#d4af37"
 };
 

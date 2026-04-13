@@ -14,6 +14,7 @@ export interface CreateConsentInput {
   initiatorPnoHash: string;
   initiatorDisplayName: string;
   scope: string;
+  message?: string | null;
 }
 
 export interface SignConsentInput {

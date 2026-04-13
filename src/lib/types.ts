@@ -32,6 +32,8 @@ export interface Consent {
   status: ConsentStatus;
   /** Fritextscope, t.ex. "samlag 2026-04-15 kväll". Aldrig PII utöver det. */
   scope: string;
+  /** Valfritt personligt meddelande från initiator till motpart. Visas på sign-sidan. */
+  message: string | null;
 }
 
 export interface BankIdSession {

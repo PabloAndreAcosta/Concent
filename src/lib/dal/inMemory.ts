@@ -41,7 +41,8 @@ export const inMemoryDal: Dal = {
       revokedAt: null,
       revokedBy: null,
       status: "pending",
-      scope: input.scope
+      scope: input.scope,
+      message: input.message ?? null
     };
     store.set(id, consent);
     return consent;

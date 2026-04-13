@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 export default function NewConsent() {
   const router = useRouter();
   const [scope, setScope] = useState("");
+  const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,7 +17,7 @@ export default function NewConsent() {
       const res = await fetch("/api/consent/create", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ scope })
+        body: JSON.stringify({ scope, message })
       });
       if (!res.ok) throw new Error(await res.text());
       const { consentId } = await res.json();
@@ -44,10 +45,21 @@ export default function NewConsent() {
         required
         minLength={5}
       />
-      {error && <p style={{ color: "var(--err)" }}>{error}</p>}
-      <div style={{ marginTop: 16 }}>
+
+      <label htmlFor="message">Meddelande till motparten <span className="muted">(valfritt)</span></label>
+      <textarea
+        id="message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder="Ett personligt meddelande som visas när motparten öppnar länken."
+        rows={3}
+        maxLength={1000}
+      />
+
+      {error && <p style={{ color: "var(--usha-err)" }}>{error}</p>}
+      <div style={{ marginTop: 20 }}>
         <button className="btn" type="submit" disabled={busy}>
-          {busy ? "Skapar..." : "Fortsätt till BankID"}
+          {busy ? "Skapar..." : "Fortsätt till BankID →"}
         </button>
       </div>
     </form>

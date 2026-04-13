@@ -26,6 +26,15 @@ export default async function ConsentDetail({ params }: { params: { id: string }
         </div>
         <p className="muted" style={{ marginTop: 8 }}>{consent.scope}</p>
 
+        {consent.message && (
+          <>
+            <h3>Meddelande</h3>
+            <p style={{ whiteSpace: "pre-wrap", borderLeft: "3px solid var(--usha-gold)", paddingLeft: 14 }}>
+              {consent.message}
+            </p>
+          </>
+        )}
+
         <h3>Initiator</h3>
         <p>
           {consent.initiator.displayName || "(väntar)"}{" "}
