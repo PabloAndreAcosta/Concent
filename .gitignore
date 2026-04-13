@@ -1,0 +1,13 @@
+node_modules
+.next
+out
+.env
+.env.local
+.env*.local
+*.log
+.DS_Store
+coverage
+.vercel
+certs/*.pem
+certs/*.p12
+!certs/.gitkeep
