@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { stripeClient } from "@/lib/stripe/client";
 import { config } from "@/lib/config";
+import { rateLimitGuard } from "@/lib/rate-limit";
 
 /**
  * POST /api/payment/create-checkout
@@ -20,6 +21,11 @@ const Schema = z.object({
 });
 
 export async function POST(req: Request) {
+  // 3/min/IP — Stripe-Checkout-skapande ska ej spammas (potentiell kostnad
+  // i fraud / Stripe-API-rate-limits)
+  const limited = rateLimitGuard(req, "payment_checkout", { max: 3, windowMs: 60_000 });
+  if (limited) return limited;
+
   const parsed = Schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });

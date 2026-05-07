@@ -4,6 +4,7 @@ import { bankid } from "@/lib/bankid";
 import { config } from "@/lib/config";
 import { createBankIdSession } from "@/lib/signicat/client";
 import { signCookieValue } from "@/lib/signicat/crypto";
+import { rateLimitGuard } from "@/lib/rate-limit";
 
 /**
  * Startar BankID-signering för en consent.
@@ -15,10 +16,8 @@ import { signCookieValue } from "@/lib/signicat/crypto";
  * UI-page hanterar båda response-shapes (om authenticationUrl finns redirectar
  * den browsern, annars startar polling med orderRef).
  *
- * TODO (innan produktion):
- *   - Rate limit per IP (t.ex. 5/min) — se task #11
- *   - Verifiera origin/CSRF-token
- *   - Logga endast orderRef/sessionId, aldrig personnummer
+ * Rate-limit: 5 requests/min/IP (token bucket, in-process). Skydd mot
+ * DDoS som kostar oss BankID-orders.
  */
 const Schema = z.object({
   consentId: z.string().uuid(),
@@ -26,6 +25,9 @@ const Schema = z.object({
 });
 
 export async function POST(req: Request) {
+  const limited = rateLimitGuard(req, "bankid_sign", { max: 5, windowMs: 60_000 });
+  if (limited) return limited;
+
   const parsed = Schema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });

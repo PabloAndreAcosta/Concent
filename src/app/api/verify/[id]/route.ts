@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { serviceClient } from "@/lib/supabase/client";
 import { config } from "@/lib/config";
+import { rateLimitGuard } from "@/lib/rate-limit";
 
 /**
  * Public verify-endpoint. Returnerar audit-kedjan för en consent + per-event
@@ -34,9 +35,15 @@ interface VerifyRow {
 const ParamsSchema = z.object({ id: z.string().uuid() });
 
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: { id: string } }
 ) {
+  // 30/min/IP — högre limit eftersom verify är publikt och tänkt att kunna
+  // pollas. Skydd mot enumeration-attacker (UUID v4 är dock praktiskt
+  // omöjligt att brute-force:a).
+  const limited = rateLimitGuard(req, "verify", { max: 30, windowMs: 60_000 });
+  if (limited) return limited;
+
   const parsed = ParamsSchema.safeParse(params);
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_id" }, { status: 400 });
