@@ -75,6 +75,12 @@ export default async function ConsentDetail({ params }: { params: { id: string }
         )}
 
         {consent.status !== "revoked" && <RevokeButton consentId={consent.id} />}
+
+        <p className="muted" style={{ fontSize: 13, marginTop: 24 }}>
+          <a href={`/verify/${consent.id}`} style={{ color: "var(--usha-gold)" }}>
+            Visa audit-kedja & verifiera integritet →
+          </a>
+        </p>
       </div>
     </div>
   );
