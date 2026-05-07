@@ -2,12 +2,47 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "https://concent.usha.se"),
   title: "Concent — Samtycke med eftertanke",
-  description: "Digitalt samtycke med BankID. 3 dagar mellan signering och aktivering. En produkt från Usha."
+  description:
+    "Digitalt samtycke med BankID. 3 dagar mellan signering och aktivering. En produkt från Usha.",
+  applicationName: "Concent",
+  appleWebApp: {
+    capable: true,
+    title: "Concent",
+    statusBarStyle: "black-translucent"
+  },
+  formatDetection: {
+    telephone: false
+  },
+  openGraph: {
+    type: "website",
+    locale: "sv_SE",
+    url: "/",
+    siteName: "Concent",
+    title: "Concent — Samtycke med eftertanke",
+    description: "Digitalt samtycke med BankID. 3 dagar mellan signering och aktivering."
+  },
+  twitter: {
+    card: "summary",
+    title: "Concent",
+    description: "Digitalt samtycke med BankID."
+  },
+  // Manifest hanteras automatiskt av app/manifest.ts (Next.js 14 file-based)
+  // Icons hanteras automatiskt av app/icon.tsx + app/apple-icon.tsx
+  robots: {
+    index: true,
+    follow: true
+  }
 };
 
 export const viewport: Viewport = {
-  themeColor: "#d4af37"
+  themeColor: "#000000",
+  // Förhindra iOS-zoom när användaren tappar input-fält men tillåt manuell zoom
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover" // utnyttja iPhone-notch-area i installerad PWA
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

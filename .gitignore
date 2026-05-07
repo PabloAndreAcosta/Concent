@@ -12,3 +12,10 @@ coverage
 certs/*.pem
 certs/*.p12
 !certs/.gitkeep
+
+# next-pwa build artifacts (auto-genereras vid build)
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+public/workbox-*.js.map
+public/fallback-*.js
