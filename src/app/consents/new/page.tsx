@@ -14,14 +14,19 @@ export default function NewConsent() {
     setBusy(true);
     setError(null);
     try {
-      const res = await fetch("/api/consent/create", {
+      // Steg 1: skapa Stripe Checkout-session (i live-läge) eller direkt-skapa
+      // consent (i test-läge — checkout-routen hanterar branchen)
+      const res = await fetch("/api/payment/create-checkout", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ scope, message })
       });
       if (!res.ok) throw new Error(await res.text());
-      const { consentId } = await res.json();
-      router.push(`/consents/${consentId}/sign?role=initiator`);
+      const { checkoutUrl } = (await res.json()) as { checkoutUrl: string };
+
+      // Browser redirectar — antingen till Stripe (live) eller direkt till
+      // /sign (test). Båda är externa nav, så vi lämnar denna sida helt.
+      window.location.href = checkoutUrl;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Något gick fel");
       setBusy(false);

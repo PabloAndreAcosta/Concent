@@ -19,7 +19,12 @@ export const config = {
     accountId: process.env.SIGNICAT_ACCOUNT_ID ?? "",
     apiBase: process.env.SIGNICAT_API_BASE ?? "https://api.signicat.com"
   },
-  pnoHmacSecret: process.env.PNO_HMAC_SECRET ?? ""
+  pnoHmacSecret: process.env.PNO_HMAC_SECRET ?? "",
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY ?? "",
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? "",
+    priceSek: Number(process.env.STRIPE_PRICE_SEK ?? 5000) // i öre, default 50 kr
+  }
 };
 
 export function assertLiveConfig(): void {
@@ -32,6 +37,7 @@ export function assertLiveConfig(): void {
   if (!config.signicat.accountId) missing.push("SIGNICAT_ACCOUNT_ID");
   if (!config.pnoHmacSecret) missing.push("PNO_HMAC_SECRET");
   if (!config.appUrl) missing.push("NEXT_PUBLIC_APP_URL");
+  if (!config.stripe.secretKey) missing.push("STRIPE_SECRET_KEY");
   if (missing.length) {
     throw new Error(
       `APP_MODE=live men följande env saknas: ${missing.join(", ")}`
