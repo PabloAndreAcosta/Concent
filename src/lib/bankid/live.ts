@@ -1,30 +1,34 @@
 /**
- * Live BankID v6-klient.
+ * Live BankID-implementation.
  *
- * STATUS: stub. För att aktivera:
- *   1. Hämta test-cert (.p12) från https://www.bankid.com/utvecklare/test
- *   2. Lägg i ./certs/bankid.p12 och sätt BANKID_CERT_PATH + BANKID_CERT_PASSWORD.
- *   3. Implementera fetch med klientcert via undici.Agent eller https.Agent.
- *   4. Mappa svaret till BankIdClient-kontraktet.
+ * NOTERA: Concent använder Signicat OAuth-redirect-flow istället för direkt
+ * BankID v6 (cert-baserat). Live-flödet hanteras därför inte via BankIdClient-
+ * interfacet — det skulle inte mappa rent (mock = sync polling, Signicat =
+ * async redirect).
  *
- * Endpoint-referenser:
- *   POST /sign        — startar signeringsorder
- *   POST /collect     — pollar status
- *   POST /cancel      — avbryter
+ * Live-flödets entry-points:
+ *   - POST /api/bankid/sign     → returnerar { authenticationUrl }
+ *   - GET  /api/bankid/callback → Signicat redirectar hit, vi skriver consent
  *
- * Säkerhet: cert-filen MÅSTE ligga utanför versionshanterat område.
- * .gitignore skyddar certs/*.p12 men dubbelkolla innan commit.
+ * BankIdClient-interfacet används BARA i test-läge (mockBankIdClient).
+ *
+ * Den här filen finns för att bankid()-selektorn inte ska kasta vid import,
+ * men metoderna ska aldrig anropas.
  */
 import type { BankIdClient } from "./types";
 
+const NOT_USED_MSG =
+  "liveBankIdClient anropas aldrig — live-flödet går via /api/bankid/sign + " +
+  "/api/bankid/callback (Signicat redirect). Se src/app/api/bankid/.";
+
 export const liveBankIdClient: BankIdClient = {
   async startSign() {
-    throw new Error("liveBankIdClient not implemented — se src/lib/bankid/live.ts");
+    throw new Error(NOT_USED_MSG);
   },
   async collect() {
-    throw new Error("liveBankIdClient not implemented");
+    throw new Error(NOT_USED_MSG);
   },
   async cancel() {
-    throw new Error("liveBankIdClient not implemented");
+    throw new Error(NOT_USED_MSG);
   }
 };

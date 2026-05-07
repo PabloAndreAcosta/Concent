@@ -42,8 +42,18 @@ export default function SignPage() {
         body: JSON.stringify({ consentId: id, role })
       });
       if (!res.ok) throw new Error(await res.text());
-      const { orderRef } = await res.json();
-      setState({ kind: "polling", orderRef });
+      const data = (await res.json()) as
+        | { authenticationUrl: string }
+        | { orderRef: string };
+
+      // Live-mode: Signicat redirect-flow
+      if ("authenticationUrl" in data) {
+        window.location.href = data.authenticationUrl;
+        return;
+      }
+
+      // Test-mode: mock polling-flow
+      setState({ kind: "polling", orderRef: data.orderRef });
     } catch (err) {
       setState({ kind: "error", message: err instanceof Error ? err.message : "fel" });
     }
