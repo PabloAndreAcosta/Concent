@@ -66,6 +66,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span className="dot" /> En produkt från{" "}
             <a href="https://usha.se" style={{ marginLeft: 4 }}>Usha</a>
             <span style={{ margin: "0 8px" }}>·</span>
+            <a href="/terms">Villkor</a>
+            <span style={{ margin: "0 8px" }}>·</span>
+            <a href="/privacy">Integritet</a>
+            <span style={{ margin: "0 8px" }}>·</span>
             <a href="https://github.com/PabloAndreAcosta/Concent">Källkod</a>
           </div>
         </footer>
