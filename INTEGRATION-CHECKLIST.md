@@ -18,10 +18,10 @@
 | A2 | Genomföra ägarbyte (Ludvig → Pablo) | ✅ | Pablo + Nordea KYC | 2026-05-05 |
 | A3 | Aktivera admin-behörigheter (företagskonto) | ✅ | Pablo (ringt 0771-350 360) | 2026-05-06 |
 | A4 | Initial kontakt med BankID-handläggare | ✅ | Jenny Ågren via Nordea Business chat | 2026-05-08 |
-| A5 | **Skicka info-paket till Jenny** | 🟡 *Väntar på dig* | Pablo | utkast i Gmail (1756 tecken) |
-| A6 | Nordea skickar avtalsutkast (BankID Förlitande Part-avtal) | ⏳ | Nordea | väntar A5 |
-| A7 | Granska + signera Nordea-avtal | ⏳ | Pablo | väntar A6 |
-| A8 | Nordea utfärdar Köparcertifikat | ⏳ | Nordea | väntar A7. Tid: ~2-4 v |
+| A5 | Skicka info-paket till Jenny | ✅ | Pablo | 2026-05-08 morgon |
+| A6 | Nordea skickar avtalsutkast (BankID Förlitande Part) | ✅ | Nordea | 2026-05-08 11:19 |
+| A7 | Granska + signera Nordea-avtal | ✅ | Pablo | 2026-05-08 ~14:20 (digital signering BankID) |
+| A8 | **Nordea utfärdar Köparcertifikat** | 🟡 *Pågår* | Nordea | startade 2026-05-08. ETA 2-4 v |
 | A9 | Cert utväxlas (Nordea → Pablo → Signicat) | ⏳ | Pablo + Signicat | väntar A8 |
 
 **Pris (exkl moms):** Anslutning 1 000 kr engång + 500 kr/mån + 0,20 kr/identifiering.
@@ -43,7 +43,7 @@
 | B4 | Sandbox-flow byggt + testat (Concent) | ✅ | Claude | 2026-05-07 |
 | B5 | Aron Sritharan startar onboarding | ✅ | Aron | 2026-04-28 |
 | B6 | Pablo svarar Aron med org-info | ✅ | Pablo | 2026-04-29 |
-| B7 | **Aron skickar Signicat dashboard-invite** | 🟡 *Väntar på Aron* | Aron | påmint 2026-05-06, 2 dagar tyst |
+| B7 | Aron skickar Signicat dashboard-invite | 🟡 *Eskalering lyckad* | Simon → Aron | 2026-05-08 18:34: Simon svarade "speak to team, apologies for delay", CC:ade aron.sritharan@signicat.com. ETA: måndag 11 maj |
 | B8 | Pablo accepterar invite + fyller i företagsuppgifter | ⏳ | Pablo | väntar B7 |
 | B9 | Pablo begär production account | ⏳ | Pablo | väntar B8 |
 | B10 | Letter of Authorization (om Nordea kräver) | ⏳ | Pablo + Aron | föreslagen i info-paketet |
@@ -177,14 +177,17 @@ B7 (Aron dashboard-invite) ──┐             │
 
 | Vecka | Aktivitet |
 |---|---|
-| **v1 (denna)** | A5 (skicka info), parallellt B7 påminnelse om inget händer fre/lör |
-| **v2** | A6/A7 (Nordea-avtal) — ofta snabbt om avtalet är standard |
-| **v3-5** | A8 (cert-utfärdande) + B7-B10 i bakgrunden, Q5 beta-test på sandbox |
-| **v6** | B11/B12 (Signicat-integration), parallellt Q4 jurist |
-| **v7** | C5/D9 + C6/D10 + smoke-test |
-| **v8** | Public launch |
+| **v1 (8 maj)** | ✅ A5+A6+A7 KLART. Pinga Aron snabbt så B-spåret hinner ikapp |
+| **v2-3 (12-22 maj)** | A8 cert-utfärdande pågår. B7-B10 (Aron, dashboard, LoA) i parallell |
+| **v3-4 (19-29 maj)** | Beta-test på sandbox (Q5), jurist-granskning (Q4) |
+| **v4-5 (26 maj-5 juni)** | A9 cert-leverans → B11/B12 (Signicat installerar) |
+| **v5-6 (2-12 juni)** | C5/D9 + C6/D10 (env + smoke) |
+| **v6-7 (9-19 juni)** | Public launch |
 
-**Realistisk launch:** ~2026-07-01 om allt går smidigt, ~2026-07-15 med några bumps.
+**Ny realistisk launch:** ~2026-06-12 om Nordea-cert tar 3 v + Signicat 1 v.
+**Pessimistisk launch:** ~2026-06-26 om Nordea drar 4 v.
+
+**Tidigare bedömning** (1 juli–15 juli) hängde på A5-A7 som klart idag.
 
 ---
 
