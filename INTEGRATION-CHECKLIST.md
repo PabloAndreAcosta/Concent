@@ -1,16 +1,19 @@
 # BankID Integration — Master Checklist
 
-**Senast uppdaterad:** 2026-05-12 (eftermiddag — efter Moumys mail)
+**Senast uppdaterad:** 2026-05-13 (sen kväll — efter end-to-end verifiering)
 **Owner:** Pablo Acosta (firmatecknare Usha AB) + Claude (autonomous build)
 **Sammanhang:** Usha-platform + Concent ska båda gå live med Mobilt BankID via Signicat (teknisk integrator) + Nordea (cert-utgivare)
 
-> **Critical path-summa (uppdaterad):** Signicat har aktiverat Swedish BankID
-> på prod-kontot 2026-05-12. Återstår: (1) hämta prod-creds från dashboard,
-> (2) klargöra cert-konflikten (Nordeas eget FP-cert vs Signicats broker-cert)
-> via Moumys svar på ticket 335970, (3) Vercel-env + smoke-test.
+> **Critical path-summa (uppdaterad):** Server-sidan av Signicat-integrationen
+> är verifierad mot prod (2026-05-13 — token OK + session created via
+> verify-skript). Återstår: (1) klargöra cert-konflikten via Moumys svar på
+> ticket 335970 — slutsteget BankID-app-login gav "QR code invalid" vilket
+> troligen indikerar att BankID Sweden ännu inte mappat Usha AB under
+> Signicats broker-cert, (2) Vercel-env-rond i creators-platform + Concent,
+> (3) live smoke-test.
 >
-> **Tidigaste live-datum:** dagar, inte veckor. ~2026-05-15–2026-05-20 om
-> cert-frågan är OK och callback-URLs whitelistas snabbt.
+> **Tidigaste live-datum:** dagar, inte veckor — så fort Moumy bekräftar
+> cert-provisioneringen är klar.
 
 ---
 
@@ -50,12 +53,14 @@
 | B5 | Aron Sritharan startar onboarding | ✅ | Aron | 2026-04-28 |
 | B6 | Pablo svarar Aron med org-info | ✅ | Pablo | 2026-04-29 |
 | B7 | Signicat dashboard-invite | ✅ | Moumy (efter Simon-eskalering) | 2026-05-08 17:13 — invite till pablo.acosta@usha.se |
-| B8 | Pablo accepterar invite + fyller i företagsuppgifter | 🟡 *Pablo nästa* | Pablo | invite mottagen, accept + fyll i denna vecka |
+| B8 | Pablo accepterar invite + fyller i företagsuppgifter | ✅ | Pablo | 2026-05-12 — inloggad, prod-scope synlig (`a-ppge-9zMYhtLxFISFfCFIl6g0`) |
 | B9 | Prod-konto aktiverat | ✅ | Moumy | 2026-05-12 15:51 — "Swedish BankID is now enabled in your production account" |
 | B10 | Letter of Authorization (om Nordea kräver) | ❓ | — | Sannolikt ej tillämplig i broker-modellen — fråga Moumy om osäker |
 | B11 | Signicat ordnar cert i broker-modellen | ✅ (enligt Moumy) | Signicat | 2026-05-11 — "we have already ordered the certificate for you" |
-| B12 | Pablo hämtar prod CLIENT_ID/SECRET/ACCOUNT_ID från dashboard | 🟡 *Pablo nästa* | Pablo | logga in på dashboard.signicat.com med pablo.acosta@usha.se |
-| B13 | Whitelistat prod callback URLs | ❓ | Pablo (i dashboard) eller Moumy (via ticket) | bekräfta path via ticket 335970 |
+| B12 | Skapat API client + secret + permissions i dashboard | ✅ | Pablo | 2026-05-12 — Client `prod-irate-puma-674`, permission "Authentication REST API", secret i lösenordshanterare |
+| B13 | Whitelistat prod callback URLs | ✅ (implicit) | Signicat | callback-URLs accepterades vid session creation utan klagomål |
+| B14 | Verifiera prod-creds end-to-end (server-side) | ✅ | Claude + Pablo | 2026-05-13 — `verify-signicat.mjs`: token OK, session created, branded subdomain `usha-ab.app.signicat.com` aktiverad |
+| B15 | Verifiera prod-creds end-to-end (BankID-app-login) | 🔴 | Pablo + Moumy | 2026-05-13 — QR i MBID-appen säger "QR code is invalid". Troligen ej Signicats fel utan BankID Sweden-provisionering. Väntar Moumys svar på ticket 335970 |
 
 **Kvarstående tekniska frågor till Aron** (i tidigare draft, kan ställas igen):
 - Production host: api.signicat.com eller annan region-endpoint?
