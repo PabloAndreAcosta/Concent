@@ -1,3 +1,14 @@
+### INAKTUELLT 2026-05-12 — SKICKA INTE ###
+# Premissen är överkörd:
+#   - Dashboard-invite kom 2026-05-08 (vi har access).
+#   - Signicat (Moumy Kabir, 2026-05-11): "We have already ordered the
+#     certificate for you. You do not need to place an order."
+#   - Signicat (Moumy Kabir, 2026-05-12 15:51): Swedish BankID enabled på
+#     produktionskontot — gå live.
+# Aron-spåret är ersatt av Moumy på ticket 335970. Ny draft till Moumy ligger
+# i Gmail-drafts (cert-konflikt mot Nordeas instruktion 2026-05-11).
+##########################################
+
 TILL: aron.sritharan@signicat.com
 CC:  simon.hartvig@signicat.com
 ÄRENDE: #334834

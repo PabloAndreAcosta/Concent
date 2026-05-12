@@ -1,12 +1,16 @@
 # BankID Integration — Master Checklist
 
-**Senast uppdaterad:** 2026-05-12
+**Senast uppdaterad:** 2026-05-12 (eftermiddag — efter Moumys mail)
 **Owner:** Pablo Acosta (firmatecknare Usha AB) + Claude (autonomous build)
 **Sammanhang:** Usha-platform + Concent ska båda gå live med Mobilt BankID via Signicat (teknisk integrator) + Nordea (cert-utgivare)
 
-> **Critical path-summa:** Vi väntar på två trådar — Nordea-cert (4-8 v) och Signicat dashboard-aktivering (dagar). Tekniska sidan är klar.
+> **Critical path-summa (uppdaterad):** Signicat har aktiverat Swedish BankID
+> på prod-kontot 2026-05-12. Återstår: (1) hämta prod-creds från dashboard,
+> (2) klargöra cert-konflikten (Nordeas eget FP-cert vs Signicats broker-cert)
+> via Moumys svar på ticket 335970, (3) Vercel-env + smoke-test.
 >
-> **Tidigaste live-datum:** ~2026-06-15 om Nordea går snabbt, ~2026-07-15 om de tar full lead-time.
+> **Tidigaste live-datum:** dagar, inte veckor. ~2026-05-15–2026-05-20 om
+> cert-frågan är OK och callback-URLs whitelistas snabbt.
 
 ---
 
@@ -22,9 +26,9 @@
 | A6 | Nordea skickar avtalsutkast (BankID Förlitande Part) | ✅ | Nordea | 2026-05-08 11:19 |
 | A7 | Granska + signera Nordea-avtal | ✅ | Pablo | 2026-05-08 ~14:20 (digital signering BankID) |
 | A8 | **Avtal registrerat hos Nordea** | ✅ | Jessica @ Nordea | 2026-05-11 15:19 (3 dagar, snabbare än ETA!) |
-| A9 | Pablo beställer cert på www.nordea.se/fpcert | 🟡 *Nästa action* | Pablo (firmatecknare) | öppnad 2026-05-11 |
-| A10 | Nordea utfärdar .p12 + lösenord | ⏳ | Nordea | väntar A9 |
-| A11 | Cert laddas upp i Signicat dashboard | ⏳ | Pablo (eller Aron via support) | väntar A10 + B7 |
+| A9 | Pablo beställer cert på www.nordea.se/fpcert | ⏸️ *PAUSAD* | — | Cert-konflikt: Moumy 2026-05-11 säger "we already ordered for you, no action needed". Verifiera m. Moumy om eget Nordea-cert ändå krävs innan A9 körs. |
+| A10 | Nordea utfärdar .p12 + lösenord | ⏸️ | — | Beror på Moumys svar |
+| A11 | Cert laddas upp i Signicat dashboard | ⏸️ | — | Beror på Moumys svar — kanske ej tillämpligt i broker-modellen |
 
 **Pris (exkl moms):** Anslutning 1 000 kr engång + 500 kr/mån + 0,20 kr/identifiering.
 
@@ -45,13 +49,13 @@
 | B4 | Sandbox-flow byggt + testat (Concent) | ✅ | Claude | 2026-05-07 |
 | B5 | Aron Sritharan startar onboarding | ✅ | Aron | 2026-04-28 |
 | B6 | Pablo svarar Aron med org-info | ✅ | Pablo | 2026-04-29 |
-| B7 | Aron skickar Signicat dashboard-invite | 🟡 *Eskalering lyckad* | Simon → Aron | 2026-05-08 18:34: Simon svarade "speak to team, apologies for delay", CC:ade aron.sritharan@signicat.com. ETA: måndag 11 maj |
-| B8 | Pablo accepterar invite + fyller i företagsuppgifter | ⏳ | Pablo | väntar B7 |
-| B9 | Pablo begär production account | ⏳ | Pablo | väntar B8 |
-| B10 | Letter of Authorization (om Nordea kräver) | ⏳ | Pablo + Aron | föreslagen i info-paketet |
-| B11 | Signicat installerar Nordea-cert i prod-miljö | ⏳ | Signicat | väntar A9 |
-| B12 | Signicat aktiverar prod CLIENT_ID/SECRET/ACCOUNT_ID | ⏳ | Signicat | väntar B11 |
-| B13 | Signicat whitelistar prod callback URLs | ⏳ | Signicat | väntar B12 |
+| B7 | Signicat dashboard-invite | ✅ | Moumy (efter Simon-eskalering) | 2026-05-08 17:13 — invite till pablo.acosta@usha.se |
+| B8 | Pablo accepterar invite + fyller i företagsuppgifter | 🟡 *Pablo nästa* | Pablo | invite mottagen, accept + fyll i denna vecka |
+| B9 | Prod-konto aktiverat | ✅ | Moumy | 2026-05-12 15:51 — "Swedish BankID is now enabled in your production account" |
+| B10 | Letter of Authorization (om Nordea kräver) | ❓ | — | Sannolikt ej tillämplig i broker-modellen — fråga Moumy om osäker |
+| B11 | Signicat ordnar cert i broker-modellen | ✅ (enligt Moumy) | Signicat | 2026-05-11 — "we have already ordered the certificate for you" |
+| B12 | Pablo hämtar prod CLIENT_ID/SECRET/ACCOUNT_ID från dashboard | 🟡 *Pablo nästa* | Pablo | logga in på dashboard.signicat.com med pablo.acosta@usha.se |
+| B13 | Whitelistat prod callback URLs | ❓ | Pablo (i dashboard) eller Moumy (via ticket) | bekräfta path via ticket 335970 |
 
 **Kvarstående tekniska frågor till Aron** (i tidigare draft, kan ställas igen):
 - Production host: api.signicat.com eller annan region-endpoint?
@@ -203,23 +207,43 @@ B7 (Aron dashboard-invite) ──┐             │
 
 ## Vad du (Pablo) behöver göra manuellt
 
-### Denna vecka (krit-bana)
-1. **Skicka utkastet till Jenny** (Gmail draft `r-4378737976325707163`, ~1756 tecken, klistra in i Nordea Business chat)
-2. **Generera PNO_HMAC_SECRET** lokalt och spara säkert: `openssl rand -base64 32` (sätt i Vercel senare)
+### Denna vecka (krit-bana, uppdaterad 2026-05-12 e.m.)
+1. **Granska + skicka Moumy-draften** (Gmail draft `r5770839028368370154`) — frågar
+   cert-konflikten + 3 tekniska följdfrågor. Trycka Skicka när du är OK med tonen.
+2. **Pausa Jenny-utkastet** i Gmail-drafts tills Moumys cert-svar landar.
+3. **Logga in på dashboard.signicat.com** med pablo.acosta@usha.se.
+   - Hämta prod `CLIENT_ID` / `CLIENT_SECRET` / `ACCOUNT_ID`
+   - Kolla callback-URL-whitelist-sektionen — addera om möjligt själv:
+     - creators-platform: `https://usha.se/api/auth/bankid/callback?status=success`
+       (+ samma för status=abort och status=error)
+     - Concent: `https://concent.usha.se/api/bankid/callback?status=success`
+       (+ samma för status=abort och status=error)
+4. **Smoke-testa prod-creds lokalt** innan Vercel:
+   ```bash
+   SIGNICAT_CLIENT_ID=… SIGNICAT_CLIENT_SECRET=… SIGNICAT_ACCOUNT_ID=… \
+     APP_URL=https://usha.se \
+     node ~/Code/creators-platform/scripts/verify-signicat.mjs
+   ```
+5. **Generera PNO_HMAC_SECRET** för Concent: `openssl rand -base64 32`
 
-### Inom 2 veckor
-3. **Skapa Vercel-projekt** för Concent: `cd ~/Concent && vercel link`
-4. **DNS:** lägg till CNAME `concent.usha.se → cname.vercel-dns.com`
-5. **Pinga Aron** om dashboard-invite om inget hänt 2026-05-13
+### När Moumy bekräftat cert-frågan
+6. **Om broker-cert räcker:** arkivera Jenny-utkastet, meddela Jessica via
+   Nordea Business chat att Usha går via Signicat-broker, inget eget cert.
+7. **Om eget Nordea-cert behövs ändå:** skicka Jenny-utkastet, kör A9.
 
-### När cert-trådarna är klara
-6. **Granska + signera Nordea-avtal**
-7. **Pinga mig** för Vercel-env-rond + smoke-tests
+### Vercel env-rond
+8. **creators-platform** Vercel env-vars: `SIGNICAT_CLIENT_ID`,
+   `SIGNICAT_CLIENT_SECRET`, `SIGNICAT_ACCOUNT_ID`,
+   `SIGNICAT_API_BASE=https://api.signicat.com` (eller region-specifik per
+   Moumys svar), `BANKID_COOKIE_SECRET=<openssl rand -base64 32>`.
+9. **Concent** Vercel env-vars: samma SIGNICAT_* + `APP_MODE=live` +
+   `PNO_HMAC_SECRET` + övriga från D6 nedan.
+10. **Smoke-test signup-flow** på usha.se mot prod-cert (live BankID-login).
 
 ### Innan public launch
-8. **Jurist-granskning** av `/terms` + `/privacy`
-9. **Stripe live-mode** företagsverifiering
-10. **Beta-test** med 5 personer
+11. **Jurist-granskning** av `/terms` + `/privacy`
+12. **Stripe live-mode** företagsverifiering
+13. **Beta-test** med 5 personer
 
 ---
 
