@@ -1,0 +1,40 @@
+TILL: aron.sritharan@signicat.com
+CC:  simon.hartvig@signicat.com
+ÄRENDE: #334834
+SUBJECT: Usha AB / case #334834 — Nordea cert ordered, need dashboard access this week
+
+---
+
+Hi Aron,
+
+Quick update — Nordea registered our BankID Förlitande Part agreement on May 11
+and we've now ordered the production certificate at www.nordea.se/fpcert. We
+expect the .p12 + password back from Nordea within a few business days.
+
+To avoid bottlenecking once the cert arrives, we need two things from your side:
+
+1. **Signicat dashboard invite** for pablo.acosta@usha.se
+   — Outstanding since onboarding kicked off (case #334834, last reminder May 6).
+     Simon confirmed escalation on May 8 with ETA Monday May 11. Today is May 12
+     and we still don't have access.
+
+2. **Cert upload + production credentials**
+   When the .p12 arrives, we'll need to either upload via the dashboard or hand
+   it to your support team. Please confirm which path you prefer and the secure
+   transfer method (we will NOT email the cert).
+
+We'd also still appreciate clarification on the open technical questions from
+our previous thread:
+   - Production host: api.signicat.com or a region-specific endpoint?
+   - `nin` attribute — enabled on the prod account by default?
+   - Provider scope — adding norwegian/danish/finnish later, separate approval?
+   - SLA / status page / incident escalation contact
+
+Targeted go-live: ~June 1 if we keep moving this week. We're paying for Starter
+Auth (599 SEK/month, 12-month commitment from April 24) — would like to start
+using it.
+
+Thanks,
+Pablo Acosta
+Founder & firmatecknare, Usha AB (org 559401-8326)
+pablo.acosta@usha.se

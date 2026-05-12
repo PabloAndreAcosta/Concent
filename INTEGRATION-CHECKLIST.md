@@ -1,6 +1,6 @@
 # BankID Integration — Master Checklist
 
-**Senast uppdaterad:** 2026-05-08
+**Senast uppdaterad:** 2026-05-12
 **Owner:** Pablo Acosta (firmatecknare Usha AB) + Claude (autonomous build)
 **Sammanhang:** Usha-platform + Concent ska båda gå live med Mobilt BankID via Signicat (teknisk integrator) + Nordea (cert-utgivare)
 
@@ -21,8 +21,10 @@
 | A5 | Skicka info-paket till Jenny | ✅ | Pablo | 2026-05-08 morgon |
 | A6 | Nordea skickar avtalsutkast (BankID Förlitande Part) | ✅ | Nordea | 2026-05-08 11:19 |
 | A7 | Granska + signera Nordea-avtal | ✅ | Pablo | 2026-05-08 ~14:20 (digital signering BankID) |
-| A8 | **Nordea utfärdar Köparcertifikat** | 🟡 *Pågår* | Nordea | startade 2026-05-08. ETA 2-4 v |
-| A9 | Cert utväxlas (Nordea → Pablo → Signicat) | ⏳ | Pablo + Signicat | väntar A8 |
+| A8 | **Avtal registrerat hos Nordea** | ✅ | Jessica @ Nordea | 2026-05-11 15:19 (3 dagar, snabbare än ETA!) |
+| A9 | Pablo beställer cert på www.nordea.se/fpcert | 🟡 *Nästa action* | Pablo (firmatecknare) | öppnad 2026-05-11 |
+| A10 | Nordea utfärdar .p12 + lösenord | ⏳ | Nordea | väntar A9 |
+| A11 | Cert laddas upp i Signicat dashboard | ⏳ | Pablo (eller Aron via support) | väntar A10 + B7 |
 
 **Pris (exkl moms):** Anslutning 1 000 kr engång + 500 kr/mån + 0,20 kr/identifiering.
 
